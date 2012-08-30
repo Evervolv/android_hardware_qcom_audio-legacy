@@ -18,9 +18,9 @@ LOCAL_SHARED_LIBRARIES := \
 
 LOCAL_SRC_FILES:= AudioPolicyManager.cpp
 
-#ifeq ($(BOARD_HAVE_BLUETOOTH),true)
-#  LOCAL_CFLAGS += -DWITH_A2DP
-#endif
+ifeq ($(BOARD_HAVE_BLUETOOTH),true)
+  LOCAL_CFLAGS += -DWITH_A2DP
+endif
 
 include $(BUILD_SHARED_LIBRARY)
 

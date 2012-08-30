@@ -172,7 +172,8 @@ audio_devices_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strate
     case STRATEGY_MEDIA: {
         uint32_t device2 = mAvailableOutputDevices & AudioSystem::DEVICE_OUT_AUX_DIGITAL;
 #ifdef WITH_A2DP
-        if (mA2dpOutput != 0) {
+        if (mHasA2dp && (mForceUse[AudioSystem::FOR_MEDIA] != AudioSystem::FORCE_NO_BT_A2DP) &&
+                (getA2dpOutput() != 0) && !mA2dpSuspended) {
             if (device2 == 0) {
                 // play ringtone over speaker (or speaker + headset) if in car dock
                 // because A2DP is suspended in this case
@@ -194,7 +195,8 @@ audio_devices_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strate
             device2 = mAvailableOutputDevices & AudioSystem::DEVICE_OUT_WIRED_HEADSET;
         }
 #ifdef WITH_A2DP
-        if (mA2dpOutput != 0) {
+        if (mHasA2dp && (mForceUse[AudioSystem::FOR_MEDIA] != AudioSystem::FORCE_NO_BT_A2DP) &&
+                (getA2dpOutput() != 0) && !mA2dpSuspended) {
             if (device2 == 0) {
                 device2 = mAvailableOutputDevices & AudioSystem::DEVICE_OUT_BLUETOOTH_A2DP;
             }
@@ -245,7 +247,7 @@ float AudioPolicyManager::computeVolume(int stream, int index, audio_io_handle_t
     // force volume on A2DP output to maximum if playing through car dock speakers
     // as volume is applied on the car dock and controlled via car dock keys.
 #ifdef WITH_A2DP
-    if (output == mA2dpOutput &&
+    if (output == getA2dpOutput() &&
         mForceUse[AudioSystem::FOR_DOCK] == AudioSystem::FORCE_BT_CAR_DOCK) {
         return 1.0;
     }
