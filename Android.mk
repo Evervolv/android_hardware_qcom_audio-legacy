@@ -1,6 +1,6 @@
 ifneq ($(TARGET_PROVIDES_LIBAUDIO),true)
 ifneq ($(BOARD_USES_AUDIO_LEGACY),true)
-ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
+ifeq ($(BOARD_USES_LEGACY_QCOM),true)
 
 AUDIO_HW_ROOT := $(call my-dir)
 
