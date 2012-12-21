@@ -49,7 +49,7 @@ public:
         //  2 access to either current device selection (fromCache == true) or
         // "future" device selection (fromCache == false) when called from a context
         //  where conditions are changing (setDeviceConnectionState(), setPhoneState()...) AND
-        //  before updateDeviceForStrategy() is called.
+        //  before updateDevicesAndOutputs() is called.
         virtual audio_devices_t getDeviceForStrategy(routing_strategy strategy, bool fromCache = true);
         virtual status_t startOutput(audio_io_handle_t output, AudioSystem::stream_type stream, int session = 0);
         virtual status_t stopOutput(audio_io_handle_t output, AudioSystem::stream_type stream, int session = 0);
