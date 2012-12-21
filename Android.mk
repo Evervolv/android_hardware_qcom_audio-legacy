@@ -4,10 +4,6 @@ ifeq ($(BOARD_USES_LEGACY_QCOM),true)
 
 AUDIO_HW_ROOT := $(call my-dir)
 
-ifeq ($(TARGET_BOARD_PLATFORM),msm8960)
-    include $(AUDIO_HW_ROOT)/alsa_sound/Android.mk
-    include $(AUDIO_HW_ROOT)/libalsa-intf/Android.mk
-endif
 ifeq ($(TARGET_BOARD_PLATFORM),msm7x27a)
     include $(AUDIO_HW_ROOT)/msm7627a/Android.mk
 endif
