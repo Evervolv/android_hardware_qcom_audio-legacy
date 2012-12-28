@@ -545,7 +545,7 @@ status_t AudioPolicyManager::startOutput(audio_io_handle_t output, AudioSystem::
 
         // update the outputs if starting an output with a stream that can affect notification
         // routing
-        handleNotificationRoutingForStream(stream);
+        AudioPolicyManager::handleNotificationRoutingForStream(stream);
         if (waitMs > muteWaitMs) {
             usleep((waitMs - muteWaitMs) * 2 * 1000);
         }
@@ -601,7 +601,7 @@ status_t AudioPolicyManager::stopOutput(audio_io_handle_t output, AudioSystem::s
                 }
             }
             // update the outputs if stopping one with a stream that can affect notification routing
-            handleNotificationRoutingForStream(stream);
+            AudioPolicyManager::handleNotificationRoutingForStream(stream);
         }
         return NO_ERROR;
     } else {
@@ -609,6 +609,7 @@ status_t AudioPolicyManager::stopOutput(audio_io_handle_t output, AudioSystem::s
         return INVALID_OPERATION;
     }
 }
+
 
 status_t AudioPolicyManager::stopInput(audio_io_handle_t input)
 {
@@ -897,6 +898,17 @@ audio_devices_t AudioPolicyManager::getDeviceForInputSource(int inputSource)
     }
     ALOGV("getDeviceForInputSource()input source %d, device %08x", inputSource, device);
     return (audio_devices_t)device;
+}
+
+void AudioPolicyManager::handleNotificationRoutingForStream(AudioSystem::stream_type stream) {
+    switch(stream) {
+    case AudioSystem::MUSIC:
+        checkOutputForStrategy(STRATEGY_SONIFICATION_RESPECTFUL);
+        updateDevicesAndOutputs();
+        break;
+    default:
+        break;
+    }
 }
 
 /*

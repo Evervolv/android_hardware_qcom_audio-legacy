@@ -53,6 +53,7 @@ public:
         virtual audio_devices_t getDeviceForStrategy(routing_strategy strategy, bool fromCache = true);
         virtual status_t startOutput(audio_io_handle_t output, AudioSystem::stream_type stream, int session = 0);
         virtual status_t stopOutput(audio_io_handle_t output, AudioSystem::stream_type stream, int session = 0);
+
         virtual void setForceUse(AudioSystem::force_use usage, AudioSystem::forced_config config);
                 // indicates to the audio policy manager that the input starts being used.
         virtual status_t startInput(audio_io_handle_t input);
@@ -64,6 +65,9 @@ protected:
         status_t checkAndSetVolume(int stream, int index, audio_io_handle_t output, audio_devices_t device, int delayMs = 0, bool force = false);
         // select input device corresponding to requested audio source
         virtual audio_devices_t getDeviceForInputSource(int inputSource);
+        // updates device caching and output for streams that can influence the
+        //    routing of notifications
+        void handleNotificationRoutingForStream(AudioSystem::stream_type stream);
         // Mute or unmute the stream on the specified output
         status_t stopInput(audio_io_handle_t input);
 };
