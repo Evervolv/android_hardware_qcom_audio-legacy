@@ -229,7 +229,7 @@ static char * out_get_parameters(const struct audio_stream *stream, const char *
 
         AudioParameter parms = AudioParameter(s8);
         if (parms.getInt(String8(AUDIO_PARAMETER_STREAM_ROUTING), val) == NO_ERROR) {
-            val = convert_audio_device(val, HAL_API_REV_1_0, HAL_API_REV_2_0);
+            val = convert_audio_device(val, HAL_API_REV_2_0, HAL_API_REV_1_0);
             parms.remove(String8(AUDIO_PARAMETER_STREAM_ROUTING));
             parms.addInt(String8(AUDIO_PARAMETER_STREAM_ROUTING), val);
             s8 = parms.toString();
@@ -431,7 +431,7 @@ static char * in_get_parameters(const struct audio_stream *stream,
 
 	    AudioParameter parms = AudioParameter(s8);
 	    if (parms.getInt(String8(AUDIO_PARAMETER_STREAM_ROUTING), val) == NO_ERROR) {
-	        val = convert_audio_device(val, HAL_API_REV_1_0, HAL_API_REV_2_0);
+	        val = convert_audio_device(val, HAL_API_REV_2_0, HAL_API_REV_1_0);
 	        parms.remove(String8(AUDIO_PARAMETER_STREAM_ROUTING));
 	        parms.addInt(String8(AUDIO_PARAMETER_STREAM_ROUTING), val);
 	        s8 = parms.toString();
@@ -650,6 +650,8 @@ static int adev_open_input_stream(struct audio_hw_device *dev,
     in = (struct qcom_stream_in *)calloc(1, sizeof(*in));
     if (!in)
         return -ENOMEM;
+
+    devices = convert_audio_device(devices, HAL_API_REV_2_0, HAL_API_REV_1_0);
 
     in->qcom_in = qadev->hwif->openInputStream(devices, (int *)&config->format,
                                     &config->channel_mask,
