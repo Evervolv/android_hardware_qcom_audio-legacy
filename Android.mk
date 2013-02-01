@@ -1,6 +1,4 @@
-ifneq ($(TARGET_PROVIDES_LIBAUDIO),true)
-ifneq ($(BOARD_USES_AUDIO_LEGACY),true)
-ifeq ($(BOARD_USES_LEGACY_QCOM),true)
+ifeq ($(TARGET_QCOM_AUDIO_VARIANT),legacy)
 
 AUDIO_HW_ROOT := $(call my-dir)
 
@@ -20,6 +18,6 @@ endif
 ifeq ($(TARGET_BOARD_PLATFORM),qsd8k)
     include $(AUDIO_HW_ROOT)/qsd8k/Android.mk
 endif
+
 endif
-endif
-endif
+
