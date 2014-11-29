@@ -1,4 +1,4 @@
-ifeq ($(TARGET_QCOM_AUDIO_VARIANT),legacy)
+ifeq ($(call my-dir),$(call project-path-for,qcom-audio))
 
 AUDIO_HW_ROOT := $(call my-dir)
 
